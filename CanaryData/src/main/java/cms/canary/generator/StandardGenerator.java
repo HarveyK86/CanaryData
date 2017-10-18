@@ -63,7 +63,7 @@ public final class StandardGenerator {
 	private static final String VIDEOS_PAGE_NAME = "Videos";
 	private static final boolean VIDEOS_PAGE_HIDDEN = false;
 	private static final String VIDEOS_PAGE_PRIORITY = "3.00";
-
+	
 	// Pages - /r/Test
 	private static final String R_TEST_PAGE_NAME = "/r/test";
 	private static final boolean R_TEST_PAGE_HIDDEN = false;
@@ -73,6 +73,11 @@ public final class StandardGenerator {
 	private static final String UNCATEGORISED_HIDDEN_PAGE_NAME = "Uncategorised [Hidden]";
 	private static final boolean UNCATEGORISED_HIDDEN_PAGE_HIDDEN = true;
 	private static final String UNCATEGORISED_HIDDEN_PAGE_PRIORITY = null;
+
+	// Pages - Post
+	private static final String POST_PAGE_NAME = "Post";
+	private static final boolean POST_PAGE_HIDDEN = true;
+	private static final String POST_PAGE_PRIORITY = null;
 
 	// Posts - Default
 	private static final String DEFAULT_POST_TITLE = "Example Default Post";
@@ -304,6 +309,11 @@ public final class StandardGenerator {
 		+ "  \\\"categories\\\": [\\r\\n"
 		+ "  ]\\r\\n"
 		+ "}";
+
+	// Templates - Pages - Post
+	private static final String PAGE_POST_NAME = "Page | Post";
+	private static final String PAGE_POST_DIRECTORY = "page/post";
+	private static final String PAGE_POST_PARAMETERS = null;
 
 	// Templates - Pages - /r/Test - Default
 	private static final String PAGE_REDDIT_R_TEST_DEFAULT_NAME = "Page | Reddit [/r/test | Default]";
@@ -593,6 +603,10 @@ public final class StandardGenerator {
 	private static final String PAGE_CATEGORY_NAME = "Page | Category";
 	private static final String PAGE_CATEGORY_FILE = "page/category/controller";
 
+	// Controllers - Pages - Post
+	private static final String PAGE_POST_CONTROLLER_NAME = "Page | Post";
+	private static final String PAGE_POST_FILE = "page/post/controller";
+
 	// Controllers - Pages - Reddit
 	private static final String PAGE_REDDIT_NAME = "Page | Reddit";
 	private static final String PAGE_REDDIT_FILE = "page/reddit/controller";
@@ -638,6 +652,7 @@ public final class StandardGenerator {
 		final Controller sidebarDefaultController = new Controller(SIDEBAR_DEFAULT_NAME, SIDEBAR_DEFAULT_FILE);
 		final Controller widgetDefaultController = new Controller(WIDGET_DEFAULT_NAME, WIDGET_DEFAULT_FILE);
 		final Controller pageCategoryController = new Controller(PAGE_CATEGORY_NAME, PAGE_CATEGORY_FILE);
+		final Controller pagePostController = new Controller(PAGE_POST_CONTROLLER_NAME, PAGE_POST_FILE);
 		final Controller pageRedditController = new Controller(PAGE_REDDIT_NAME, PAGE_REDDIT_FILE);
 		final Controller postDefaultController = new Controller(POST_DEFAULT_NAME, POST_DEFAULT_FILE);
 		final Controller imageDefaultController = new Controller(IMAGE_DEFAULT_NAME, IMAGE_DEFAULT_FILE);
@@ -670,6 +685,9 @@ public final class StandardGenerator {
 		final Template pageCategoryImageTemplate = new Template(PAGE_CATEGORY_IMAGE_NAME, PAGE_CATEGORY_IMAGE_DIRECTORY, PAGE_CATEGORY_IMAGE_PARAMETERS);
 		final Template pageCategoryVideoTemplate = new Template(PAGE_CATEGORY_VIDEO_NAME, PAGE_CATEGORY_VIDEO_DIRECTORY, PAGE_CATEGORY_VIDEO_PARAMETERS);
 		final Template pageCategoryUncategorisedTemplate = new Template(PAGE_CATEGORY_UNCATEGORISED_NAME, PAGE_CATEGORY_UNCATEGORISED_DIRECTORY, PAGE_CATEGORY_UNCATEGORISED_PARAMETERS);
+
+		// Templates - Pages - Post
+		final Template pagePostTemplate = new Template(PAGE_POST_NAME, PAGE_POST_DIRECTORY, PAGE_POST_PARAMETERS);
 
 		// Templates - Pages - Reddit
 		final Template pageRedditRTestDefaultTemplate = new Template(PAGE_REDDIT_R_TEST_DEFAULT_NAME, PAGE_REDDIT_R_TEST_DEFAULT_DIRECTORY, PAGE_REDDIT_R_TEST_DEFAULT_PARAMETERS);
@@ -827,6 +845,7 @@ public final class StandardGenerator {
 		final Page videosPage = new Page(VIDEOS_PAGE_NAME, VIDEOS_PAGE_HIDDEN, standardPaginator, VIDEOS_PAGE_PRIORITY, pageCategoryVideoTemplate, pageCategoryController);
 		final Page rTestPage = new Page(R_TEST_PAGE_NAME, R_TEST_PAGE_HIDDEN, redditPaginator, R_TEST_PAGE_PRIORITY, pageRedditRTestDefaultTemplate, pageRedditController);
 		final Page uncategorisedHiddenPage = new Page(UNCATEGORISED_HIDDEN_PAGE_NAME, UNCATEGORISED_HIDDEN_PAGE_HIDDEN, standardPaginator, UNCATEGORISED_HIDDEN_PAGE_PRIORITY, pageCategoryUncategorisedTemplate, pageCategoryController);
+		final Page postPage = new Page(POST_PAGE_NAME, POST_PAGE_HIDDEN, null, POST_PAGE_PRIORITY, pagePostTemplate, pagePostController);
 
 		// Widgets
 		final Widget githubLinkWidget = new Widget(GITHUB_LINK_WIDGET_NAME, GITHUB_LINK_WIDGET_CONTENT, GITHUB_LINK_WIDGET_PRIORITY, widgetStandardDefault, widgetDefaultController);
@@ -845,7 +864,8 @@ public final class StandardGenerator {
 			imagesPage,
 			videosPage,
 			rTestPage,
-			uncategorisedHiddenPage
+			uncategorisedHiddenPage,
+			postPage
 		};
 		final Header header = new Header(HEADER_NAME, headerPages, headerStandardDefaultFixedTemplate, headerDefaultController);
 
@@ -867,7 +887,7 @@ public final class StandardGenerator {
 			githubLinkWidget, todoListWidget,
 
 			// Pages
-			newsPage, imagesPage, videosPage, rTestPage, uncategorisedHiddenPage,
+			newsPage, imagesPage, videosPage, rTestPage, uncategorisedHiddenPage, postPage,
 
 			// Posts
 			defaultPost, primaryPost, infoPost, successPost, warningPost, dangerPost, uncategorisedPost,
@@ -902,6 +922,9 @@ public final class StandardGenerator {
 			// Templates - Pages - Category
 			pageCategoryNewsTemplate, pageCategoryImageTemplate, pageCategoryVideoTemplate, pageCategoryUncategorisedTemplate,
 
+			// Templates - Pages - Post
+			pagePostTemplate,
+
 			// Templates - Pages - Reddit
 			pageRedditRTestDefaultTemplate, pageRedditRTestPrimaryTemplate, pageRedditRTestInfoTemplate, pageRedditRTestSuccessTemplate, pageRedditRTestWarningTemplate, pageRedditRTestDangerTemplate,
 
@@ -930,7 +953,7 @@ public final class StandardGenerator {
 			styleStandardTemplate,
 
 			// Controllers
-			headerDefaultController, sidebarDefaultController, widgetDefaultController, pageCategoryController, pageRedditController, postDefaultController, imageDefaultController, videoDefaultController, categoryDefaultController, paginatorStandardController, paginatorRedditController, footerDefaultController, styleDefaultController
+			headerDefaultController, sidebarDefaultController, widgetDefaultController, pageCategoryController, pagePostController, pageRedditController, postDefaultController, imageDefaultController, videoDefaultController, categoryDefaultController, paginatorStandardController, paginatorRedditController, footerDefaultController, styleDefaultController
 
 		};
 
@@ -939,7 +962,6 @@ public final class StandardGenerator {
 			objectsStr += objects[i] + (i < objects.length - 1 ? ",\n" : "");
 		}
 		System.out.println("[\n    " + objectsStr.replaceAll("\n", "\n    ") + "\n]");
-
 	}
 
 }
